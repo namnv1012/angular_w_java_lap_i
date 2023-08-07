@@ -1,0 +1,111 @@
+<section id="slider">
+  <div class="container">
+    <div class="row">
+      <owl-carousel-o [options]="customOptions">
+        <ng-container *ngFor="let slide of listSlide">
+          <ng-template class="slide" carouselSlide [id]="slide.id">
+            <div class="item active">
+              <div class="col-sm-6">
+                <h1><span style="color: #FE980F;">E</span>-LAPTOP</h1>
+                <h2>Discounts on Christmas Day</h2>
+                <p>Promise to bring customers satisfactory products.</p>
+                <p class="text-danger"><strong>Thank you for visiting the store.</strong></p>
+                <button type="button" class="btn btn-default get">Get it now</button>
+              </div>
+              <div class="col-sm-6">
+                <img [src]="slide.src" class="girl img-responsive" alt=""
+                     style="margin-top: 35px;"/>
+              </div>
+            </div>
+          </ng-template>
+        </ng-container>
+      </owl-carousel-o>
+    </div>
+  </div>
+</section>
+<section class="section products-main">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-lg-8">
+        <div class="title text-center">
+          <h2>Sản phẩm mới</h2>
+          <p>Những sản phẩm mới về</p>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-lg-3 col-12 col-md-6 col-sm-6 mb-5" *ngFor="let p of lstProductNew">
+        <div class="product">
+          <div class="product-wrap">
+            <a href="" (click)="routerProductDetail(p.id)">
+              <img class="img-fluid w-100 mb-3 img-first" src="assets/images/SP4.jpg" alt="product-img"
+                   *ngIf="p.imageUrl === null">
+            </a>
+            <a (click)="routerProductDetail(p.id)">
+              <img class="img-fluid w-100 mb-3 img-first" [src]="p.imageUrl" alt="product-img"
+                   *ngIf="p.imageUrl !== null"/>
+            </a>
+            <a (click)="routerProductDetail(p.id)">
+              <img class="img-fluid w-100 mb-3 img-second" src="assets/images/SP4.jpg" alt="product-img"
+                   *ngIf="p.imageUrl2 === null"/>
+            </a>
+            <a (click)="routerProductDetail(p.id)">
+              <img class="img-fluid w-100 mb-3 img-second" [src]="p.imageUrl2" alt="product-img"
+                   *ngIf="p.imageUrl2 !== null"/>
+            </a>
+          </div>
+          <span class="onsale" *ngIf="p.sale !== 0">
+          {{p.sale}}%
+        </span>
+          <div class="product-info">
+            <h2 class="product-title h5 mb-0"><a (click)="routerProductDetail(p.id)">{{p.name}}</a></h2>
+            <span class="price">{{convertPrice(p.price - (p.price * p.sale/100))}} VNĐ</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<section class="section products-main">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-lg-8">
+        <div class="title text-center">
+          <h2>sản phẩm đang khuyến mãi</h2>
+          <p>Những sản phẩm được giảm giá</p>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-lg-3 col-12 col-md-6 col-sm-6 mb-5" *ngFor="let p of lstProductSale">
+        <div class="product">
+          <div class="product-wrap">
+            <a (click)="routerProductDetail(p.id)">
+              <img class="img-fluid w-100 mb-3 img-first" src="assets/images/SP4.jpg" alt="product-img"
+                   *ngIf="p.imageUrl === null"/>
+            </a>
+            <a (click)="routerProductDetail(p.id)">
+              <img class="img-fluid w-100 mb-3 img-first" [src]="p.imageUrl" alt="product-img"
+                   *ngIf="p.imageUrl !== null"/>
+            </a>
+            <a (click)="routerProductDetail(p.id)">
+              <img class="img-fluid w-100 mb-3 img-second" src="assets/images/SP4.jpg" alt="product-img"
+                   *ngIf="p.imageUrl2 === null"/>
+            </a>
+            <a (click)="routerProductDetail(p.id)">
+              <img class="img-fluid w-100 mb-3 img-second" [src]="p.imageUrl2" alt="product-img"
+                   *ngIf="p.imageUrl2 !== null"/>
+            </a>
+          </div>
+          <span class="onsale" *ngIf="p.sale !== 0">{{p.sale}}%</span>
+          <div class="product-info">
+            <h2 class="product-title h5 mb-0"><a (click)="routerProductDetail(p.id)">{{p.name}}</a></h2>
+            <del class="product-price" style="font-size: 15px">{{convertPrice(p.price)}}</del>
+            <span class="price">{{convertPrice(p.price - (p.price * p.sale/100))}} VNĐ</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<app-footer></app-footer>

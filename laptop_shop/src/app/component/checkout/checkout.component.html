@@ -1,0 +1,87 @@
+<!--Tiêu đề thanh toán-->
+<div class="container">
+  <section class="page-header">
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="content text-center">
+          <h1 class="text-white">Thanh toán</h1>
+          <nav aria-label="breadcrumb">
+            <ol class="breadcrumb bg-transparent justify-content-center">
+              <li class="breadcrumb-item"><a routerLink="/">Trang chủ</a></li>
+              <li class="breadcrumb-item active text-white" aria-current="page">Thanh toán</li>
+            </ol>
+          </nav>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<div class="page-wrapper">
+  <div class="checkout shopping">
+    <div class="container">
+      <form class="checkout-form" [formGroup]="formOrder">
+        <div class="row">
+          <div class="col-md-4 order-md-2 mb-4">
+            <h4 class="d-flex justify-content-between align-items-center mb-3">
+              <span>Giỏ hàng</span>
+            </h4>
+            <div class="media product-card" *ngFor="let p of lstCart">
+              <img [src]="p.productImage" class="attachment-woocommerce_thumbnail size-woocommerce_thumbnail"
+                   style="height: 70px; width: 70px">
+              <p>{{p.productName}}</p>
+              <div class="media-body text-right"><p>{{p.quantity}} x {{cvtPrice(p.productPrice - p.productPrice*p.sale/100)}}</p></div>
+            </div>
+            <ul class="summary-prices list-unstyled mb-4 mt-2">
+              <li class="list-group-item d-flex justify-content-between">
+                <span>Tổng tiền</span>
+                <strong>{{cvtPrice(totalPriceCart)}} VNĐ</strong>
+              </li>
+            </ul>
+            <button class="btn btn-primary w-100 btn-small" style="border-radius: 5px" (click)="checkout(totalPriceCart)">Đặt hàng
+            </button>
+          </div>
+          <div class="col-md-8 order-md-1">
+            <h4 class="mb-3">Thông tin khách hàng</h4>
+            <div class="row">
+              <div class="col-md-12">
+                <label for="name">Tên khách hàng</label>
+                <input type="text" class="form-control" id="name" name="name" formControlName="name">
+              </div>
+              <div class="col-md-12">
+                <label for="address">Địa chỉ</label>
+                <input type="text" class="form-control" id="address" name="address" formControlName="address">
+              </div>
+              <div class="col-md-12">
+                <label for="phone">Điện thoại</label>
+                <input type="text" class="form-control" id="phone" name="phone" formControlName="phone">
+              </div>
+              <div class="col-md-12">
+                <label for="email">Email</label>
+                <input type="text" class="form-control" id="email" name="email" formControlName="email">
+              </div>
+              <div class="col-md-12">
+                <label for="note">Ghi chú</label>
+                <input type="text" class="form-control" id="note" name="note" formControlName="note">
+              </div>
+            </div>
+            <p></p>
+            <h4 class="mb-3">Hình thức thanh toán</h4>
+            <div style="display: flex" class="form-check mb-3">
+              <div>
+                <input id="tienmat" name="tienmat" type="checkbox" value="1" class="form-check-input">
+                <label class="form-check-label" for="tienmat">Tiền mặt</label>
+              </div>
+              <div style="margin-left: 50px">
+                <input id="chuyenkhoan" name="chuyenkhoan" type="checkbox" value="2" class="form-check-input" checked>
+                <label class="form-check-label" for="chuyenkhoan">Chuyển khoản</label>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<app-footer></app-footer>

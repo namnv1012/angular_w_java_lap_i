@@ -1,0 +1,200 @@
+<section class="single-product">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-5">
+        <div class="single-product-slider">
+          <div class="carousel slide" data-ride="carousel" id="single-product-slider">
+            <div class="carousel-inner">
+              <div class="carousel-item " [ngClass]="activeImage === 1 ? 'active' : ''">
+                <img [src]="product.imageUrl" alt="" class="img-fluid w-100" *ngIf="activeImage === 1" style="height: 415px">
+              </div>
+              <div class="carousel-item" [ngClass]="activeImage === 2 ? 'active' : ''">
+                <img [src]="product.imageUrl2" alt="" class="img-fluid w-100" *ngIf="activeImage === 2" style="height: 415px">
+              </div>
+              <div class="carousel-item " [ngClass]="activeImage === 3 ? 'active' : ''">
+                <img [src]="product.imageUrl3" alt="" class="img-fluid w-100" *ngIf="activeImage === 3" style="height: 415px">
+              </div>
+            </div>
+
+            <ol class="carousel-indicators">
+              <li data-target="#single-product-slider" data-slide-to="0" [ngClass]="activeImage === 1 ? 'active' : ''">
+                <img [src]="product.imageUrl" alt="" class="img-fluid" (click)="changeImage(1)" style="width: 150px ;height: 120px">
+              </li>
+              <li data-target="#single-product-slider" data-slide-to="1" [ngClass]="activeImage === 2 ? 'active' : ''">
+                <img [src]="product.imageUrl2" alt="" class="img-fluid" (click)="changeImage(2)" style="width: 150px ;height: 120px">
+              </li>
+              <li data-target="#single-product-slider" data-slide-to="2" [ngClass]="activeImage === 3 ? 'active' : ''">
+                <img [src]="product.imageUrl3" alt="" class="img-fluid" (click)="changeImage(3)" style="width: 150px ;height: 120px">
+              </li>
+            </ol>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-7">
+        <div class="single-product-details mt-5 mt-lg-0">
+          <h2>{{product.name}}</h2>
+          <div class="sku_wrapper mb-4">
+            <span class="font-weight-bold text-capitalize product-meta-title">Mã sản phẩm:</span> <span
+            class="text-muted" style="margin-left: 12px">{{product.code}} </span>
+          </div>
+          <hr>
+          <h3 class="product-price">{{convertPrice(product.priceSale)}} VNĐ
+            <del style="font-size: 15px">{{convertPrice(product.price)}}</del>
+            <span class="sale_product_details" *ngIf="product.sale !== 0">{{product.sale}}%</span>
+          </h3>
+
+          <div class="product-description my-4 " [innerHTML]="product.synopsis"></div>
+
+          <div class="color-swatches mt-2 d-flex align-items-center">
+            <span class="font-weight-bold text-capitalize product-meta-title">Màu:</span>
+            <ul class="list-inline mb-0">
+              <li class="list-inline-item">
+                <a routerLink="/product" class="bg-info"></a>
+              </li>
+              <li class="list-inline-item">
+                <a routerLink="/product" class="bg-dark"></a>
+              </li>
+              <li class="list-inline-item">
+                <a routerLink="/product" class="bg-danger"></a>
+              </li>
+            </ul>
+          </div>
+          <div class="product-size d-flex align-items-center mt-4">
+            <span class="font-weight-bold text-capitalize product-meta-title">Phiên bản:</span>
+            <select class="form-control">
+              <option>64GB</option>
+              <option>128GB</option>
+              <option>256GB</option>
+              <option>512GB</option>
+            </select>
+          </div>
+
+          <div class="quantity mt-4 d-flex align-items-center">
+            <input type="number" class="input-text qty text form-control w-25 mr-3" step="1" min="1" max="9"
+                   [(ngModel)]="product.quantity"
+                   name="quantity" value="1" title="Qty" size="4"
+                   [disabled]="product.quantity === null || product.quantity === 0">
+            <button (click)="addCart()" class="btn btn-main btn-small" style="margin-right: 10px; margin-left: 15px;"
+                    [disabled]="product.quantity === null || product.quantity === 0">Thêm giỏ hàng
+            </button>
+            <button (click)="pay()" class="btn btn-primary btn-small" style="border-radius: 10px;"
+                    [disabled]="product.quantity === null || product.quantity === 0">Thanh toán
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="row">
+      <div class="col-lg-12">
+        <nav class="product-info-tabs wc-tabs mt-5 mb-5">
+          <div class="nav nav-tabs nav-fill" id="nav-tab" role="tablist">
+            <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" role="tab"
+               aria-controls="nav-home" aria-selected="true" (click)="changeTab(1)" style="cursor: pointer">Đặc điểm nổi
+              bật</a>
+            <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" role="tab"
+               aria-controls="nav-profile" aria-selected="false" (click)="changeTab(2)" style="cursor: pointer">Thông số
+              kỹ thuật</a>
+          </div>
+        </nav>
+
+        <div class="tab-content" id="nav-tabContent">
+          <div class="tab-pane show active" id="nav-home" role="tabpanel" *ngIf="tab === 1">
+            <h4>Đặc điểm nổi bật</h4>
+            <p [innerHTML]="product.content"></p>
+          </div>
+          <div class="tab-pane show active" id="nav-profile" role="tabpanel" *ngIf="tab === 2">
+
+            <ul class="list-unstyled info-desc">
+              <li class="d-flex">
+                <strong>Loại CPU </strong>
+                <span>{{product.cpu}}</span>
+              </li>
+              <li class="d-flex">
+                <strong>Loại GPU </strong>
+                <span>{{product.gpu}}</span>
+              </li>
+              <li class="d-flex">
+                <strong>Kích thước màn hình </strong>
+                <span>{{product.screenSize}}</span>
+              </li>
+              <li class="d-flex">
+                <strong>Độ phân giải màn hình</strong>
+                <span>{{product.resolution}}</span>
+              </li>
+              <li class="d-flex">
+                <strong>Hệ điều hành </strong>
+                <span>{{product.os}}</span>
+              </li>
+              <li class="d-flex">
+                <strong>Pin</strong>
+                <span>{{product.batteryCapacity}}</span>
+              </li>
+              <li class="d-flex">
+                <strong>Ram</strong>
+                <span>{{product.ram}}</span>
+              </li>
+              <li class="d-flex">
+                <strong>Bộ nhớ trong</strong>
+                <span>{{product.rom}}</span>
+              </li>
+              <li class="d-flex">
+                <strong>Trọng lượng</strong>
+                <span>{{product.weight}}</span>
+              </li>
+              <li class="d-flex">
+                <strong>Công nghệ màn hình</strong>
+                <span>IPS LCD</span>
+              </li>
+              <li class="d-flex">
+                <strong>Kết nối</strong>
+                <span>{{product.networdConnect}}</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="products related-products section">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-lg-6">
+        <div class="title text-center">
+          <h2>Sản phẩm tương tự</h2>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-lg-3 col-6" *ngFor="let p of lstProduct">
+        <div class="product">
+          <div class="product-wrap">
+            <a (click)="routerProductDetail(p.id)"><img class="img-fluid w-100 mb-3 img-first"
+                                                        src="assets/images/SP4.jpg" alt="product-img"
+                                                        *ngIf="p.imageUrl === null"/></a>
+            <a (click)="routerProductDetail(p.id)"><img class="img-fluid w-100 mb-3 img-first" [src]="p.imageUrl"
+                                                        alt="product-img" *ngIf="p.imageUrl !== null"/></a>
+            <a (click)="routerProductDetail(p.id)"><img class="img-fluid w-100 mb-3 img-second"
+                                                        src="assets/images/product-2.jpg" alt="product-img"
+                                                        *ngIf="p.imageUrl2 === null"/></a>
+            <a (click)="routerProductDetail(p.id)"><img class="img-fluid w-100 mb-3 img-second" [src]="p.imageUrl2"
+                                                        alt="product-img" *ngIf="p.imageUrl2 !== null"/></a>
+          </div>
+
+          <span class="onsale" *ngIf="p.sale !== 0">{{p.sale}}%</span>
+          <div class="product-info">
+            <h2 class="product-title h5 mb-0"><a (click)="routerProductDetail(p.id)">{{p.name}}</a></h2>
+            <span class="price">
+              {{convertPrice(p.price - (p.price * p.sale/100))}} VNĐ
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<app-footer></app-footer>

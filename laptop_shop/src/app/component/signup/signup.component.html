@@ -1,0 +1,65 @@
+<div class="main">
+  <section class="signup">
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="signup-content">
+          <div class="signup-form">
+            <h2 class="form-title">Đăng ký</h2>
+            <p>Bạn đã có tài khoản? <a routerLink="/login" style="color:blue"> Đăng nhập ngay</a></p>
+            <form [formGroup]="signForm" (ngSubmit)="submit()">
+              <div class="form-group">
+                <input formControlName="email" type="email" placeholder="Địa chỉ Email"
+                       class=" w-100 rounded-pill border-0 px-4 w-100">
+                <span class="text-danger"
+                      *ngIf="f['email']?.hasError('required') && (f['email'].dirty || f['email'].touched)">Email là bắt buộc</span>
+                <span class="text-danger"
+                      *ngIf="f['email']?.hasError('pattern') && (f['email'].dirty || f['email'].touched)">Email sai định dạng</span>
+              </div>
+              <div class="form-group">
+                <input formControlName="username" type="text" placeholder="Tên tài khoản"
+                       class=" w-100 rounded-pill border-0 px-4">
+                <span class="text-danger"
+                      *ngIf="f['username']?.hasError('required') && (f['username'].dirty || f['username'].touched)">Tên tài khoản là bắt buộc</span>
+
+              </div>
+              <div class="form-group">
+                <input formControlName="phone" type="text" placeholder="Số điện thoại"
+                       class=" w-100 rounded-pill border-0 px-4">
+                <span class="text-danger"
+                      *ngIf="f['phone']?.hasError('required') && (f['phone'].dirty || f['phone'].touched)">Số điện thoại là bắt buộc</span>
+
+              </div>
+              <div class="form-group">
+                <input formControlName="password" type="password" placeholder="Mật khẩu"
+                       class="w-100 rounded-pill border-0 px-4">
+                <span class="text-danger"
+                      *ngIf="f['password']?.hasError('required') && (f['password'].dirty || f['password'].touched)">Mật khẩu là bắt buộc</span>
+              </div>
+              <div class="form-group input-pass">
+                <input formControlName="passwordConfirm" type="{{typePass}}" placeholder="Nhập lại mật khẩu"
+                       (ngModelChange)="checkPassConfirm()" class=" w-100 rounded-pill border-0 px-4">
+                <div class="eye-pass" (click)="changeTypePassConfirm()">
+                  <i *ngIf="typePass === 'password'" class="tf-ion-ios-eye"></i>
+                  <i *ngIf="typePass === 'text'" class="tf-ion-ios-eye-outline"></i>
+                </div>
+              </div>
+              <span class="text-danger" *ngIf="checkPass && f['passwordConfirm'].errors === null">Mật khẩu không chính xác</span>
+              <span class="text-danger"
+                    *ngIf="f['passwordConfirm']?.hasError('required') && (f['passwordConfirm'].dirty || f['passwordConfirm'].touched)">Mật khẩu là bắt buộc</span>
+              <input type="submit" name="signup" id="signup"
+                     class="btn btn-primary btn-small w-100 text-uppercase mb-4 rounded-pill shadow-sm"
+                     value="Register"/>
+            </form>
+          </div>
+          <div class="signup-image">
+            <figure>
+              <img class="w-100" style="height: 271px;" src="https://colorlib.com/etc/regform/colorlib-regform-7/images/signup-image.jpg" alt="sing up image"/>
+            </figure>
+            <a  routerLink="/login" class="signup-image-link" style="color:blue">Tôi đã là thành viên</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+<app-footer></app-footer>

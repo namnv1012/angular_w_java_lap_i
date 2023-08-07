@@ -1,0 +1,8 @@
+img, svg {
+  vertical-align: middle;
+  width: 100% !important;
+}
+:host::ng-deep img,svg {
+  width:50%;
+  height: 50%;
+}

@@ -1,0 +1,105 @@
+<div class="container">
+  <section class="page-header">
+    <div class="overly"></div>
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-lg-6">
+          <div class="content text-center">
+            <h1 class="mb-3 text-white">Sản phẩm</h1>
+            <nav aria-label="breadcrumb">
+              <ol class="breadcrumb bg-transparent justify-content-center">
+                <li class="breadcrumb-item"><a routerLink="/">Trang chủ</a></li>
+                <li class="breadcrumb-item active text-white" aria-current="page">Sản phẩm</li>
+              </ol>
+            </nav>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section class="products-shop section">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-3">
+          <form class="mb-5">
+            <!-- color -->
+            <section class="widget widget-sizes mb-5">
+              <h3 class="widget-title h4 mb-4">Hãng sản xuất</h3>
+              <div class="form-check" *ngFor="let a of lstProducer">
+                <input class="form-check-input" type="radio" id="size{{a.id}}" (change)="changeProducer(a.code)"
+                       name="nsx">
+                <label class="form-check-label" for="size{{a.id}}"> {{a.name}}</label>
+              </div>
+              <button type="button" class="btn btn-black btn-small btn-main" (click)="findByProducer()">Lọc</button>
+            </section>
+          </form>
+        </div>
+        <div class="col-md-9">
+          <div class="row align-items-center">
+            <div class="col-lg-12 mb-4 mb-lg-0">
+              <div class="section-title">
+                <h2 class="d-block text-left-sm">Danh sách sản phẩm</h2>
+                <div class="heading d-flex justify-content-between mb-5">
+                  <p class="result-count mb-0"> Hiển thị 1–6 of 17 kết quả</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-lg-4 col-12 col-md-6 col-sm-6 mb-5" *ngFor="let p of lstProduct">
+              <div class="product">
+                <div class="product-wrap">
+                  <a (click)="routerProductDetail(p.id)"><img class="img-fluid w-100 mb-3 img-first"
+                                                              src="assets/images/SP4.jpg" alt="product-img"
+                                                              *ngIf="p.imageUrl === null"/></a>
+                  <a (click)="routerProductDetail(p.id)"><img class="img-fluid w-100 mb-3 img-first" [src]="p.imageUrl"
+                                                              alt="product-img" *ngIf="p.imageUrl !== null"/></a>
+                  <a (click)="routerProductDetail(p.id)"><img class="img-fluid w-100 mb-3 img-second"
+                                                              src="assets/images/product-2.jpg" alt="product-img"
+                                                              *ngIf="p.imageUrl2 === null"/></a>
+                  <a (click)="routerProductDetail(p.id)"><img class="img-fluid w-100 mb-3 img-second" [src]="p.imageUrl2"
+                                                              alt="product-img" *ngIf="p.imageUrl2 !== null"/></a>
+                </div>
+                <span class="onsale" *ngIf="p.sale !== 0">{{p.sale}}%</span>
+                <div class="product-info">
+                  <h2 class="product-title h5 mb-0">
+                    <a (click)="routerProductDetail(p.id)">{{p.name}}</a>
+                  </h2>
+                  <span class="price">
+                {{convertPrice(p.price - (p.price * p.sale/100))}} VNĐ
+              </span>
+                </div>
+              </div>
+            </div>
+            <div class="col-12">
+              <nav aria-label="Page navigation">
+                <ul class="pagination">
+                  <li class="page-item">
+                    <a class="page-link" routerLink="/shop" aria-label="Previous">
+                      <span aria-hidden="true">&laquo;</span>
+                    </a>
+                  </li>
+                  <li class="page-item active">
+                    <a class="page-link" routerLink="/shop">1</a>
+                  </li>
+                  <li class="page-item">
+                    <a class="page-link" routerLink="/shop">2</a>
+                  </li>
+                  <li class="page-item">
+                    <a class="page-link" routerLink="/shop">3</a>
+                  </li>
+                  <li class="page-item">
+                    <a class="page-link" routerLink="/shop" aria-label="Next">
+                      <span aria-hidden="true">&raquo;</span>
+                    </a>
+                  </li>
+                </ul>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+<app-footer></app-footer>

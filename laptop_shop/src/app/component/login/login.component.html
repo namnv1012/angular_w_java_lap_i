@@ -1,0 +1,51 @@
+<div class="main p-3">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="container-fluid">
+        <div class="row no-gutter">
+          <div class="col-md-6 bg-light">
+            <div class="login d-flex align-items-center py-3">
+              <div class="container">
+                <div class="row">
+                  <div class="col-lg-10 col-xl-7 mx-auto">
+                    <h3 class="display-4">Laptop Shop</h3>
+                    <p class="text-muted mb-4">Không có tài khoản? <a (click)="routerSignup()" style="color:blue">Tạo một tài khoản miễn phí</a></p>
+                    <form [formGroup]="login" (ngSubmit)="submit()">
+                      <div class="form-group mb-3">
+                        <input formControlName="username" type="text" placeholder="Tên tài khoản" required=""
+                               autofocus=""
+                               class="form-control rounded-pill border-0 shadow-sm px-4">
+                        <span class="text-danger"
+                              *ngIf="f['username']?.hasError('required') && (f['username'].dirty || f['username'].touched)">Tên người dùng là bắt buộc</span>
+                      </div>
+                      <div class="form-group mb-3">
+                        <input type="password" formControlName="password" placeholder="Mật khẩu" required=""
+                               class="form-control rounded-pill border-0 shadow-sm px-4 text-primary">
+                        <span class="text-danger"
+                              *ngIf="f['password']?.hasError('required') && (f['password'].dirty || f['password'].touched)">Mật khẩu là bắt buộc</span>
+                      </div>
+                      <div class="custom-control custom-checkbox mb-3">
+                        <input id="customCheck1" type="checkbox" checked class="custom-control-input">
+                        <label for="customCheck1" class="custom-control-label">Nhớ mật khẩu</label>
+                      </div>
+                      <button type="submit"
+                              class="btn btn-primary btn-small w-100 text-uppercase mb-2 rounded-pill shadow-sm" [disabled]="!login.valid">Đăng
+                        nhập
+                      </button>
+                      <div class="text-center">
+                        <a class="small" (click)="routerForgotPassword()">Quên mật khẩu?</a>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6 d-none d-md-flex bg-image">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<app-footer></app-footer>

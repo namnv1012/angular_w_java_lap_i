@@ -1,0 +1,98 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-white navigation">
+  <div class="container">
+    <!--    Tên shop-->
+    <a class="nav-link" routerLink="/"> <span style="color: #FE980F;">E</span> - LAPTOP</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown"
+            aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <!--    Menu item-->
+    <div class="collapse navbar-collapse" id="navbarNavDropdown">
+      <ul class="navbar-nav">
+        <li class="nav-item active">
+          <a class="nav-link" routerLink="/"> <i class="fa fa-home" aria-hidden="true"></i> Trang chủ </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/shop"> <i class="fa fa-laptop" aria-hidden="true"></i> Sản phẩm </a>
+        </li>
+        <li class="nav-item dropdown dropdown-slide">
+          <a class="nav-link dropdown-toggle" style="cursor: pointer" id="navbarDropdown41" role="button"
+             data-delay="350"
+             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <i class="fa fa-user"></i> Tài khoản <i class="fa fa-angle-down"></i>
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="navbarDropdown4">
+            <li *ngIf="!isLogin"><a style="cursor: pointer" (click)="loginClick()"><i class="fa fa-sign-in" aria-hidden="true"></i> Đăng
+              nhập</a></li>
+            <li *ngIf="!isLogin"><a style="cursor: pointer" routerLink="/signup"><i class="fa fa-user"></i> Tạo tài khoản</a></li>
+            <li *ngIf="isLogin"><a style="cursor: pointer" (click)="logout()"><i class="fa fa-sign-out" aria-hidden="true"></i> Đăng
+              Xuất</a></li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+
+    <!--    Tìm kiếm-->
+    <ul class="top-menu list-inline mb-0 d-none d-lg-block" id="top-menu">
+      <!--      Tìm kiếm-->
+      <li class="list-inline-item">
+        <input (keyup.enter)="search()" type="text" placeholder="Nhập thông tin tra cứu" [(ngModel)]="keySearch" class="search-dv"
+               style="font-weight: normal; border: 1px gray solid ;font-size: 14px; width:300px; border-radius:10px; margin-right: 10px; height: 40px; background: white;">
+        <a style="cursor: pointer" (click)="search()" class="search_toggle" id="search-icon">
+          <i class="tf-ion-android-search"></i>
+        </a>
+      </li>
+
+      <!--      Giỏ hàng-->
+      <li class="dropdown cart-nav dropdown-slide list-inline-item">
+        <a class="dropdown-toggle cart-icon" data-toggle="dropdown" data-hover="dropdown" (click)="loginClick()">
+          <i class="tf-ion-android-cart"></i>
+          <span style="font-size: 13px; color: red" *ngIf="userLogin && lstProductCart?.length !== null
+                    && lstProductCart?.length !== undefined && lstProductCart?.length !== 0">
+            {{lstProductCart.length}}
+          </span>
+        </a>
+        <div class="dropdown-menu cart-dropdown" *ngIf="userLogin && lstProductCart?.length !== null
+        && lstProductCart?.length !== undefined && lstProductCart?.length !== 0">
+          <div class="media" *ngFor="let p of lstProductCart">
+            <a style="cursor: pointer" (click)="routerProductDetail(p.productId)">
+              <img class="media-object img- mr-3" [src]="p.productImage"/>
+            </a>
+            <div class="media-body">
+              <h6 (click)="routerProductDetail(p.productId)" style="cursor: pointer">{{p.productName}}</h6>
+              <div class="cart-price">
+                <span>{{p.quantity}} x </span>
+                <span>{{convertPrice((p.productPrice) - (p.productPrice * p.sale/100))}} VNĐ</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="cart-summary">
+            <span class="h6">Tổng</span>
+            <span class="total-price h6">{{convertPrice(totalPriceCart)}} VNĐ</span>
+            <div class="text-center cart-buttons mt-3">
+              <a routerLink="/cart" class="btn btn-small btn-main w-100">Giỏ hàng</a>
+              <p></p>
+              <a routerLink="/checkout" class="btn btn-main btn-small w-100 bg-primary border border-primary">Thanh
+                toán</a>
+            </div>
+          </div>
+        </div>
+      </li>
+
+      <!--      Profile-->
+      <li class="list-inline-item text-danger" *ngIf="userLogin">
+        <a (click)="routerProfile()">
+          <i class="tf-ion-ios-person mr-3"></i>
+        </a>
+        <strong>Xin chào {{userLogin.login}}!</strong>
+      </li>
+      <li class="list-inline-item" *ngIf="!userLogin">
+        <a (click)="routerProfile()">
+          <i class="tf-ion-ios-person mr-3"></i>
+        </a>
+      </li>
+    </ul>
+  </div>
+</nav>
