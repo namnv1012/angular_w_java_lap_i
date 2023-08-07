@@ -1,0 +1,78 @@
+<div class="modal-content modal-dialog-custom">
+  <form [formGroup]="form" (ngSubmit)="submit()">
+    <div class="modal-header">
+      <h4 class="modal-title" style="
+          font-size: 18px;
+          font-weight: 600;
+          font-family: Inter;
+          line-height: 30px;
+          color: #101840;
+          text-align: center !important;
+        " *ngIf="this.action === 'create'">
+        Thêm mới thông tin danh mục
+      </h4>
+      <h4 class="modal-title" style="
+          font-size: 18px;
+          font-weight: 600;
+          font-family: Inter;
+          line-height: 30px;
+          color: #101840;
+          text-align: center !important;
+        " *ngIf="this.action === 'update'">
+        Cập nhật thông tin danh mục
+      </h4>
+    </div>
+    <div class="modal-body" style="padding: 15px 10px !important">
+      <div class="row">
+        <div class="col-md-12">
+          <label>Mã danh mục<span> *</span></label>
+          <input style="font-size: 12px" type="text" formControlName="code" required/>
+          <span class="error-validate"
+                *ngIf="getControl.code?.hasError('required') && (getControl.code.dirty || getControl.code.touched)">
+            Mã danh mục không được để trống
+          </span>
+          <span class="error-validate" *ngIf="form.get('code').errors?.maxlength">
+            Mã danh mục có độ dài tối đa là 50 ký tự
+          </span>
+          <span class="error-validate" *ngIf="form.get('code')?.hasError('codeExitsts') && (form.get('code').dirty || form.get('code').touched)">
+            Mã danh mục đã tồn tại
+          </span>
+        </div>
+        <div class="col-md-12">
+          <label>Tên danh mục<span> *</span></label>
+          <input type="text" style="color: #474d66; font-weight: 500; font-size: 12px !important"
+                 formControlName="name"/>
+          <span class="error-validate"
+                *ngIf="getControl.name?.hasError('required') && (getControl.name.dirty || getControl.name.touched)">
+            Tên danh mục không được để trống
+          </span>
+          <span class="error-validate" *ngIf="form.get('name').errors?.maxlength">
+            Tên danh mục có độ dài tối đa là 250 ký tự
+          </span>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <div class="btn-action">
+        <button type="button" class="btn-md btn-gray" style="
+            font-size: 12px;
+            font-weight: 600;
+            font-family: Inter;
+            line-height: 16px;
+            text-align: center !important;
+          " (click)="cancel()">
+          Hủy bỏ
+        </button>
+        <button type="submit" class="btn-md btn-or" style="
+            font-size: 12px;
+            font-weight: 600;
+            font-family: Inter;
+            line-height: 16px;
+            text-align: center !important;
+          " [disabled]="!form.valid || loading">
+          Lưu lại
+        </button>
+      </div>
+    </div>
+  </form>
+</div>

@@ -1,0 +1,135 @@
+<div #asideMenuOffcanvas class="aside aside-left d-flex flex-column flex-row-auto" [ngClass]="asideClasses"
+     id="kt_aside" style="padding-top: 20px;">
+  <div class="aside-menu-wrapper flex-column-fluid" id="kt_aside_menu_wrapper" style="
+    height: 70vh;
+	  box-shadow: none;
+    background-color: #c95b2c;margin-top: 57px;">
+    <div #asideMenu ktMenu [options]="menuOptions"
+         [perfectScrollbar]="{wheelPropagation: false, suppressScrollX: false}"
+         [ngStyle]="{'max-height': '70vh', 'position': 'relative'}" id="kt_aside_menu"
+         class="aside-menu scroll"
+         (mouseenter)="mouseEnter($event)" (mouseleave)="mouseLeave($event)"
+         [ngClass]="htmlClassService.getClasses('aside_menu', true)">
+      <ul class="menu-nav" [ngClass]="htmlClassService.getClasses('aside_menu_nav', true)">
+        <ng-container [ngTemplateOutlet]="menuListTemplate"></ng-container>
+      </ul>
+    </div>
+  </div>
+  <div class="close-menu-wrapper hidden-sm">
+    <button class="brand-toggle btn btn-sm px-0" id="kt_aside_toggle" (click)="toggleAsideClick()"
+            style="outline: none !important; color: transparent !important;">
+      <span class="svg-icon svg-icon-xl">
+        <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect opacity="0.16" width="32" height="32" rx="6" fill="white"/>
+        <path opacity="0.4"
+              d="M26 21.553C26 24.004 23.9698 26 21.4755 26L16.5144 26C14.0252 26 12 24.01 12 21.563L12 10.447C12 7.995 14.0302 6 16.5256 6L21.4846 6C23.9749 6 26 7.99 26 10.437L26 11.377L26 21.553Z"
+              fill="white"/>
+        <path
+          d="M6.22103 16.5452L9.06682 19.4542C9.36094 19.7542 9.83427 19.7542 10.1274 19.4522C10.4196 19.1502 10.4186 18.6632 10.1255 18.3632L8.56623 16.7702L10.0612 16.7702L18.4515 16.7702C18.8654 16.7702 19.2014 16.4252 19.2014 16.0002C19.2014 15.5742 18.8654 15.2302 18.4515 15.2302L8.56623 15.2302L10.1255 13.6372C10.4186 13.3372 10.4196 12.8502 10.1274 12.5482C9.98036 12.3972 9.78849 12.3212 9.59566 12.3212C9.40477 12.3212 9.21291 12.3972 9.06682 12.5462L6.22103 15.4542C6.07981 15.5992 5.99995 15.7952 5.99995 16.0002C5.99995 16.2042 6.07981 16.4002 6.22103 16.5452Z"
+          fill="white"/>
+        </svg>
+        </span>
+    </button>
+    <span *ngIf="!checkTogle" class="close-menu">{{'MENU.CLOSE' | translate}}</span>
+  </div>
+</div>
+<div class="vuong-wrapper hidden-sm"></div>
+<div class="in-vuong hidden-sm" [style.background-color]="setBG()"></div>
+
+<ng-template #menuListTemplate>
+  <ng-container *ngFor="let child of menuAsideService.menuList$ | async">
+    <ng-container *ngIf="child.section" [ngTemplateOutlet]="menuItemSectionTemplate"
+                  [ngTemplateOutletContext]="{ item: child }"></ng-container>
+    <ng-container *ngIf="child.separator" [ngTemplateOutlet]="menuItemSeparatorTemplate"
+                  [ngTemplateOutletContext]="{ item: child }"></ng-container>
+    <ng-container *ngIf="child.title" [ngTemplateOutlet]="menuItemTemplate"
+                  [ngTemplateOutletContext]="{ item: child }"></ng-container>
+  </ng-container>
+</ng-template>
+
+<ng-template #menuItemTemplate let-item="item" let-parentItem="parentItem">
+  <ng-container *ngIf="!item.permission" [ngTemplateOutlet]="menuItemInnerTemplate"
+                [ngTemplateOutletContext]="{ item: item, parentItem: parentItem  }"></ng-container>
+  <ng-template *ngIf="item.permission" [ngxPermissionsOnly]="item.permission" ngxPermissionsOnly="{{item.permission}}">
+    <ng-container [ngTemplateOutlet]="menuItemInnerTemplate"
+                  [ngTemplateOutletContext]="{ item: item, parentItem: parentItem  }"></ng-container>
+  </ng-template>
+</ng-template>
+
+<ng-template #menuItemInnerTemplate let-item="item" let-parentItem="parentItem">
+  <li [attr.aria-haspopup]="true"
+      [attr.data-menu-toggle]="getItemAttrSubmenuToggle(item)"
+      [attr.data-ktmenu-submenu-mode]="item.mode"
+      [attr.data-ktmenu-dropdown-toggle-class]="item['dropdown-toggle-class']" [ngClass]="getItemCssClasses(item)"
+      [ngbTooltip]="item.tooltip" data-placement="right">
+
+    <a *ngIf="!item.submenu" [routerLink]="item.page" class="menu-link menu-toggle"
+       [class.highlight-submenu]="this.currentRouteUrl === item.page">
+      <ng-container [ngTemplateOutlet]="menuItemTextTemplate"
+                    [ngTemplateOutletContext]="{ item: item, parentItem: parentItem }"></ng-container>
+    </a>
+
+
+    <a *ngIf="item.submenu" class="menu-link" [class.menu-toggle]="!item.page"
+       [class.highlight-submenu]="this.currentRouteUrl === item.page">
+      <ng-container [ngTemplateOutlet]="menuItemTextTemplate"
+                    [ngTemplateOutletContext]="{ item: item, parentItem: parentItem }"></ng-container>
+    </a>
+    <div *ngIf="item.submenu" class="menu-submenu">
+      <span class="menu-arrow"></span>
+      <div *ngIf="item['custom-class'] === 'menu-item--submenu-fullheight'" class="menu-wrapper">
+        <ng-container [ngTemplateOutlet]="menuSubmenuTemplate"
+                      [ngTemplateOutletContext]="{ item: item, parentItem: parentItem }"></ng-container>
+      </div>
+      <ng-container *ngIf="item['custom-class'] !== 'menu-item--submenu-fullheight'"
+                    [ngTemplateOutlet]="menuSubmenuTemplate"
+                    [ngTemplateOutletContext]="{ item: item, parentItem: parentItem }">
+      </ng-container>
+    </div>
+  </li>
+
+</ng-template>
+
+<ng-template #menuSubmenuTemplate let-item="item" let-parentItem="parentItem">
+  <ul class="menu-subnav">
+    <ng-container *ngFor="let child of item.submenu">
+      <ng-container *ngIf="child.section" [ngTemplateOutlet]="menuItemSectionTemplate"
+                    [ngTemplateOutletContext]="{ item: child, parentItem: item }"></ng-container>
+      <ng-container *ngIf="child.separator" [ngTemplateOutlet]="menuItemSeparatorTemplate"
+                    [ngTemplateOutletContext]="{ item: child, parentItem: item }"></ng-container>
+      <ng-container *ngIf="child.title" [ngTemplateOutlet]="menuItemTemplate"
+                    [ngTemplateOutletContext]="{ item: child, parentItem: item }"></ng-container>
+    </ng-container>
+  </ul>
+</ng-template>
+
+<ng-template #menuItemTextTemplate let-item="item" let-parentItem="parentItem">
+  <img *ngIf="item.iconSvg" style="margin-right: 6px;" src="../../../../assets/media/img/{{item.iconSvg}}"
+       class="icon-svg-menu" alt="">
+  <i *ngIf="item.icon && !item.iconSvg" style="margin-right: 5px; margin-top: 11px; color: #fff"
+     [ngClass]="item.icon"></i>
+
+  <i *ngIf="parentItem && parentItem.bullet === 'dot'" class="menu-bullet menu-bullet-dot">
+    <span></span>
+  </i>
+  <i *ngIf="parentItem && parentItem.bullet === 'line'" class="menu-bullet menu-bullet-line">
+    <span></span>
+  </i>
+  <span *ngIf="item.page" [routerLink]="item.page" class="menu-text">{{item.translate|translate}}</span>
+  <span *ngIf="!item.page" class="menu-text">{{item.translate|translate}}</span>
+  <span *ngIf="item.badge" class="menu-badge">
+		<span class="badge" [ngClass]="item.badge.type">{{item.badge.value}}</span>
+	</span>
+  <i *ngIf="item.submenu" class="menu-arrow" [class.menu-toggle]="!!item.page"></i>
+</ng-template>
+
+<ng-template #menuItemSeparatorTemplate let-item="item" let-parentItem="parentItem">
+  <li class="menu-separator"><span></span></li>
+</ng-template>
+
+<ng-template #menuItemSectionTemplate let-item="item" let-parentItem="parentItem">
+  <li class="menu-section">
+    <h4 class="menu-text">{{item.section}}</h4>
+    <i class="menu-icon flaticon-more-v2"></i>
+  </li>
+</ng-template>

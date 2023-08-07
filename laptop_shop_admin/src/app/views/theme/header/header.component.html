@@ -1,0 +1,18 @@
+<div ktHeader #ktHeader class="header " [ngClass]="headerClasses" id="kt_header" style="background-color: #c95b2c;">
+  <ng-container *ngIf="(loader.progress$|async) > 0">
+    <ngb-progressbar class="loading-bar" [value]="loader.progress$|async" height="3px"></ngb-progressbar>
+  </ng-container>
+  <div [ngClass]="headerContainerClasses"
+       class="rrr d-flex align-items-stretch justify-content-between"
+       style="background: #ffffff;border-radius: 16px 0 0 0;">
+    <ng-container *ngIf="headerMenuSelfDisplay">
+      <kt-menu-horizontal
+        [headerLogo]="headerLogo"
+        [headerMenuSelfDisplay]="headerMenuSelfDisplay"
+        [headerMenuClasses]="headerMenuClasses"></kt-menu-horizontal>
+    </ng-container>
+    <ng-container *ngIf="!headerMenuSelfDisplay">
+      <div></div>
+    </ng-container>
+  </div>
+</div>
