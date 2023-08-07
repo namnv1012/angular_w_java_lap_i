@@ -1,0 +1,71 @@
+<div class="modal-content modal-dialog-custom">
+  <form [formGroup]="form" (ngSubmit)="submit()">
+    <div class="modal-header">
+      <h4 class="modal-title"
+          style="font-size: 18px;font-weight: 600;font-family: Inter;line-height: 30px;color: #101840;text-align: center !important;">
+        Thêm bảo hành sản phẩm cho khách hàng
+      </h4>
+    </div>
+    <div class="modal-body" style="padding: 15px 10px !important">
+      <div class="row">
+        <div class="col-md-12">
+          <label>Mã sản phẩm<span> *</span></label>
+          <ng-select [items]="lstProduct" bindLabel="name" bindValue="code" formControlName="productCode"
+                     placeholder="Lựa chọn" [clearable]="false" [searchable]="false" notFoundText="Không tìm thấy"
+                     style="color: #101840;font-size: 12px;line-height: 16px;font-weight: 400 !important;">
+            <ng-template ng-option-tmp let-item="item">
+              <div title="{{ item.name }}" style="overflow: hidden;text-overflow: ellipsis;white-space: nowrap;">
+                {{ item.name }}
+              </div>
+            </ng-template>
+          </ng-select>
+          <span class="error-validate"
+                *ngIf="getControl.productCode?.hasError('required') && (getControl.productCode.dirty || getControl.productCode.touched)">
+            Mã sản phẩm không được để trống
+          </span>
+        </div>
+        <div class="col-md-12">
+          <label>Ngày nhận sản phẩm<span> *</span></label>
+          <input type="date" style="color: #474d66; font-weight: 500; font-size: 12px !important"
+                 formControlName="receivedDate"/>
+          <span class="error-validate"
+                *ngIf="getControl.receivedDate?.hasError('required') && (getControl.receivedDate.dirty || getControl.receivedDate.touched)">
+            Ngày nhận sản phẩm không được để trống
+          </span>
+        </div>
+        <div class="col-md-12">
+          <label>Ngày nhận trả sản phẩm<span> *</span></label>
+          <input type="date" style="color: #474d66; font-weight: 500; font-size: 12px !important"
+                 formControlName="payDate"/>
+          <span class="error-validate"
+                *ngIf="getControl.payDate?.hasError('required') && (getControl.payDate.dirty || getControl.payDate.touched)">
+            Ngày trả sản phẩm không được để trống
+          </span>
+        </div>
+        <div class="col-md-12">
+          <label>Ghi chú tình trạng sản phẩm<span> *</span></label>
+          <input type="text" style="color: #474d66; font-weight: 500; font-size: 12px !important"
+                 formControlName="note"/>
+          <span
+            class="error-validate"
+            *ngIf="getControl.note?.hasError('required') && (getControl.note.dirty || getControl.note.touched)">
+            Ghi chú không được để trống
+          </span>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <div class="btn-action">
+        <button type="button" class="btn-md btn-gray" (click)="cancel()"
+                style="font-size: 12px;font-weight: 600;font-family: Inter;line-height: 16px;text-align: center !important;">
+          Hủy bỏ
+        </button>
+        <button type="submit" class="btn-md btn-or"
+                style="font-size: 12px;font-weight: 600;font-family: Inter;line-height: 16px;text-align: center !important;"
+                [disabled]="!form.valid">
+          Lưu lại
+        </button>
+      </div>
+    </div>
+  </form>
+</div>
